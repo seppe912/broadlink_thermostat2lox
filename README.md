@@ -1,5 +1,5 @@
 # Broadlink_Thermostat2lox
-Integration von Midea in Loxone
+Integration von Broadlink Thermostaten in Loxone
 
 Dieses Loxberry Plugin stellt eine MQTT Verbindung der Floureon Thermostate zum MQTT-Plugin her.
 
