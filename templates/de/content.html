@@ -1,0 +1,150 @@
+<div role=\"main\" class=\"ui-content\">
+   <div class=\"ui-body ui-body-a ui-corner-all loxberry-logo\">
+      <div style=\"margin: 5%;\">
+      <form method="post" data-ajax="false" name="main_form" id="main_form" action="./index.cgi">
+         <input type="hidden" name="savedata" id="savedata" value="1">
+         <div class="form-group">
+            <table valign="bottom" width="100%">
+               <tbody>
+                  <tr>
+                     <td align="left" valign="bottom">
+                        <h2> Broadlink_Thermostat2Lox - Settings</h2>
+                     </td>
+
+					 
+<td colspan=5 align=center>
+<font face="courier"><b><!--$broadlink_thermostatstatus--></b></font>
+</td>
+
+<tr>
+<td align="left" valign="bottom">
+<h2> MQTT Settings</h2>
+</td>
+</tr>
+
+<tr>
+<td width="50%"><label>mqtt_broker Leer lassen bei Installiertem MQTT-Plugin. default: localhost. </label></td>
+<td width="50%"><input name="mqtt_broker" type="text" value="<!--$mqtt_broker-->" """ /></td>
+</tr>
+<tr>
+<td width="50%"><label>mqtt_port. Leer lassen bei Installiertem MQTT-Plugin default 1883.</label></td>
+<td width="50%"><input name="mqtt_port" type="text" value="<!--$mqtt_port-->" """ /></td>
+</tr>
+<tr>
+<td width="50%"><label>mqtt_username. Leer lassen bei Installiertem MQTT-Plugin.</label></td>
+<td width="50%"><input name="mqtt_username" type="text" value="<!--$mqtt_username-->" """ /></td>
+</tr>
+<tr>
+<td width="50%"><label>mqtt_password. Leer lassen bei Installiertem MQTT-Plugin.</label></td>
+<td width="50%"><input name="mqtt_password" type="password" value="<!--$mqtt_password-->" """ /></td>
+</tr>
+<tr>
+<td width="50%"><label>mqtt_clientid</label></td>
+<td width="50%"><input name="mqtt_clientid" type="text" value="<!--$mqtt_clientid-->" """ /></td>
+</tr>
+<tr>
+<td width="50%"><label>mqttname</label></td>
+<td width="50%"><input name="mqttname" type="text" value="<!--$mqttname-->" """ /></td>
+</tr>
+<tr>
+<td width="50%"><label>mqtt_topic_prefix</label></td>
+<td width="50%"><input name="mqtt_topic_prefix" type="text" value="<!--$mqtt_topic_prefix-->" """ /></td>
+</tr>
+<tr>
+<td width="50%"><label>mqtt_retain</label></td>
+<td width="50%"><input name="mqtt_retain" type="text" value="<!--$mqtt_retain-->" """ /></td>
+</tr>
+<tr>
+<td width="50%"><label>mqtt_qos</label></td>
+<td width="50%"><input name="mqtt_qos" type="text" value="<!--$mqtt_qos-->" """ /></td>
+</tr>	
+
+<td align="left" valign="bottom">
+<h2> Thermostat Settings</h2>
+</td>
+
+<tr>
+<td width="50%"><label>lookup_timeout</label></td>
+<td width="50%"><input name="lookup_timeout" type="text" pattern="\d*" maxlength="5" value="<!--$lookup_timeout-->" """ /></td>
+</tr>
+<tr>
+<td width="50%"><label>loop_time</label></td>
+<td width="50%"><input name="loop_time" type="text" pattern="\d*" maxlength="5" value="<!--$loop_time-->" """ /></td>
+</tr>
+<tr>
+<td width="50%"><label>rediscover_time</label></td>
+<td width="50%"><input name="rediscover_time" type="text" pattern="\d*" maxlength="5" value="<!--$rediscover_time-->" """ /></td>
+</tr>
+<tr>
+<td width="50%"><label>auto_mode</label></td>
+<td width="50%"><input name="auto_mode" type="text" pattern="\d*" maxlength="5" value="<!--$auto_mode-->" """ /></td>
+</tr>
+<tr>
+<td width="50%"><label>loop_mode: 0 Samstag u. Sonntag = Wochenende, 1 Sonntag ist Wochenende, 2 Kein Wochenende</label></td>
+<td width="50%"><input name="loop_mode" type="text" pattern="\d*" maxlength="5" value="<!--$loop_mode-->" """ /></td>
+</tr>
+<tr>
+<td width="50%"><label>remote_lock</label></td>
+<td width="50%"><input name="remote_lock" type="text" pattern="\d*" maxlength="5" value="<!--$remote_lock-->" """ /></td>
+</tr>
+<tr>
+<td width="50%"><label>time_zone</label></td>
+<td width="50%"><input name="time_zone" type="text" value="<!--$time_zone-->" """ /></td>
+</tr>
+
+				
+<tr>
+<td>
+<b>Broadlink_Thermostat Server:</b>
+</td>
+<td>
+<a id="button" data-icon="check" data-role="button" data-inline="true" data-mini="false" href="./index.cgi?do=start">Start</a>
+<a id="button" data-icon="delete" data-role="button" data-inline="true" data-mini="false" href="./index.cgi?do=stop">Stop</a>
+<a id="button" data-icon="refresh" data-role="button" data-inline="true" data-mini="false" href="./index.cgi?do=restart">Restart</a>
+<a id="button" data-icon="info" data-role="button" data-inline="true" data-mini="false" href="/admin/system/tools/logfile.cgi?logfile=plugins/<!--$psubfolder-->/broadlink_thermostat.log&header=html&format=template&only=once" target="_blank">Logfile</a>
+</td>
+</tr>
+
+</tbody>
+</table>
+<br />
+<table border="1" width="100%" cellspacing="0" cellpadding="20">
+<tbody>
+<tr>
+<td width="100%">
+<table>
+
+</tr>
+</tbody>
+</table>
+<table border="0" width="100%" cellspacing="0">
+                    <tr>
+                        <td>
+
+                        </td>
+                    </tr>
+                    <tr>
+					    <td width="50%"><label>Zum übertragen der Einstellungen vom MQTT-Plugin entsprechende Felder leer lassen und auf Save drücken. Die Werte werden beim Speichern übertragen.</label></td>
+                        <td width="25%">&nbsp</td>
+                        <td width="50%">
+                            <input id="do" name="do" type="submit" value="Save">
+                        </td>
+                        <td width="25%">
+                            &nbsp;
+                        </td>
+						
+                    </tr>
+                </table>
+</div>
+</form>
+      <!--$restartMsg-->
+      <script>
+         var $messages = $('#form-error-message');
+         $.validate({
+         	modules : 'security',
+         	errorMessagePosition : $messages,
+         });
+      </script>
+      </div>
+   </div>
+</div>
