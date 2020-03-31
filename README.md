@@ -3,7 +3,7 @@ Integration von Broadlink Thermostaten in Loxone
 
 Dieses Loxberry Plugin stellt eine MQTT Verbindung der Floureon Thermostate zum MQTT-Plugin her.
 
-Der Hauptpart, das Python3 Midea Script, stammt von ralphm2004 https://github.com/ralphm2004/broadlink-thermostat Vielen Dank dafür, ohne dieses Plugin hätte das nicht funktioniert.
+Der Hauptpart, das Python Script, stammt von ralphm2004 https://github.com/ralphm2004/broadlink-thermostat Vielen Dank dafür, ohne dieses Plugin hätte das nicht funktioniert.
 
 Installation:
 Plugin herunterladen und im Pluginmanager des Loxberry installieren.
