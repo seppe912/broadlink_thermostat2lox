@@ -38,7 +38,7 @@ our $rediscover_time;
 our $auto_mode;
 our $select_auto_mode;
 our $loop_mode;
-ouour $remote_lock;
+our $remote_lock;
 our $select_remote_lock;
 our $time_zone;
 our $mqtt_broker;
