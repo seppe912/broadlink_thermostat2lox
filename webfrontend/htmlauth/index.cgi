@@ -49,6 +49,7 @@ our $mqtt_username;
 our $mqtt_password;
 our $mqtt_topic_prefix;
 our $mqtt_retain;
+our $select_mqtt_retain;
 our $mqtt_qos;
 our $broadlink_thermostatstatus;
 
@@ -90,7 +91,7 @@ if ( !$query{'mqttname'} ) { if ( param('mqttname') ) { $mqttname = quotemeta(pa
 if ( !$query{'mqtt_username'} ) { if ( param('mqtt_username') ) { $mqtt_username = quotemeta(param('mqtt_username')); } else { $mqtt_username = $mqttcred->{brokeruser}; } } else { $mqtt_username = quotemeta($query{'mqtt_username'}); }
 if ( !$query{'mqtt_password'} ) { if ( param('mqtt_password') ) { $mqtt_password = quotemeta(param('mqtt_password')); } else { $mqtt_password = $mqttcred->{brokerpass}; } } else { $mqtt_password = quotemeta($query{'mqtt_password'}); }
 if ( !$query{'mqtt_topic_prefix'} ) { if ( param('mqtt_topic_prefix') ) { $mqtt_topic_prefix = quotemeta(param('mqtt_topic_prefix')); } else { $mqtt_topic_prefix = "broadlink"; } } else { $mqtt_topic_prefix = quotemeta($query{'mqtt_topic_prefix'}); }
-if ( !$query{'mqtt_retain'} ) { if ( param('mqtt_retain') ) { $mqtt_retain = quotemeta(param('mqtt_retain')); } else { $mqtt_retain = "True"; } } else { $mqtt_retain = quotemeta($query{'mqtt_retain'}); }
+if ( !$query{'mqtt_retain'} ) { if ( param('mqtt_retain') ) { $mqtt_retain = quotemeta(param('mqtt_retain')); } else { $mqtt_retain = $mqtt_retain; } } else { $mqtt_retain = quotemeta($query{'mqtt_retain'}); }
 if ( !$query{'mqtt_qos'} ) { if ( param('mqtt_qos') ) { $mqtt_qos = quotemeta(param('mqtt_qos')); } else { $mqtt_qos = "2"; } } else { $mqtt_qos = quotemeta($query{'mqtt_qos'}); }
 if ( !$query{'auto_mode'} ) { if ( param('auto_mode') ) { $auto_mode = quotemeta(param('auto_mode')); } else { $auto_mode = $auto_mode;  } } else { $auto_mode = quotemeta($query{'auto_mode'}); }
 if ( !$query{'loop_mode'} ) { if ( param('loop_mode') ) { $loop_mode = quotemeta(param('loop_mode')); } else { $loop_mode = "0";  } } else { $loop_mode = quotemeta($query{'loop_mode'}); }
@@ -122,6 +123,7 @@ if (param('savedata')) {
 	print $DATEIHANDLER "mqtt_username = '" . unquotemeta($mqtt_username) . "'\n";
 	print $DATEIHANDLER "mqtt_password = '" . unquotemeta($mqtt_password) . "'\n";
 	print $DATEIHANDLER "mqtt_topic_prefix = '" . unquotemeta($mqtt_topic_prefix) . "'\n";
+		if ($mqtt_retain ne 1) { $mqtt_retain = 0 }
 	print $DATEIHANDLER "mqtt_retain = " . unquotemeta($mqtt_retain) . "\n";
 	print $DATEIHANDLER "mqtt_qos = " . unquotemeta($mqtt_qos) . "\n";
 		if ($auto_mode ne 1) { $auto_mode = 0 }
@@ -201,6 +203,14 @@ if ($remote_lock eq "1") {
 	$select_remote_lock = '<option value="0" selected>open</option><option value="1">lock</option>';
 }
 
+# Set MQTT-Retain Switch
+#
+
+if ($remote_lock eq "1") {
+	$select_remote_lock = '<option value="False">False</option><option value="True" selected>True</option>';
+} else {
+	$select_remote_lock = '<option value="False" selected>False</option><option value="True">True</option>';
+}
 
 # ---------------------------------------
 # Fill Miniserver selection dropdown
