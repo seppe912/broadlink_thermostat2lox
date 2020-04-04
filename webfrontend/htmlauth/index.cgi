@@ -206,7 +206,7 @@ if ($remote_lock eq "1") {
 # Set MQTT-Retain Switch
 #
 
-if ($mqtt_retain eq "1") {
+if ($mqtt_retain eq "True") {
 	$select_mqtt_retain = '<option value="False">False</option><option value="True" selected>True</option>';
 } else {
 	$select_mqtt_retain = '<option value="False" selected>False</option><option value="True">True</option>';
