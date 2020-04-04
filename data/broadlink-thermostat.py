@@ -126,7 +126,7 @@ class ReadDevice(Process):
                                 return
                     else:
                         try:
-                            data = self.device.get_full_status()
+                            data = self.device.get_selected_status()
                         except socket.timeout:
                             mqttc.loop_stop()
                             return
