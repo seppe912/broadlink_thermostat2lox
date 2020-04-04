@@ -81,7 +81,7 @@ if ( !$query{'shedule'} ) { if ( param('shedule') ) { $shedule = quotemeta(param
 if ( !$query{'lookup_timeout'} ) { if ( param('lookup_timeout') ) { $lookup_timeout = quotemeta(param('lookup_timeout')); } else { $lookup_timeout = "20"; } } else { $lookup_timeout = quotemeta($query{'lookup_timeout'}); }
 if ( !$query{'loop_time'} ) { if ( param('loop_time') ) { $loop_time = quotemeta(param('loop_time')); } else { $loop_time = "10"; } } else { $loop_time = quotemeta($query{'loop_time'}); }
 if ( !$query{'rediscover_time'} ) { if ( param('rediscover_time') ) { $rediscover_time = quotemeta(param('rediscover_time')); } else { $rediscover_time = "600"; } } else { $rediscover_time = quotemeta($query{'rediscover_time'}); }
-if ( !$query{'remote_lock'} ) { if ( param('remote_lock') ) { $remote_lock = quotemeta(param('remote_lock')); } else { $remote_lock = "0"; } } else { $remote_lock = quotemeta($query{'remote_lock'}); }
+if ( !$query{'remote_lock'} ) { if ( param('remote_lock') ) { $remote_lock = quotemeta(param('remote_lock')); } else { $remote_lock = $remote_lock; } } else { $remote_lock = quotemeta($query{'remote_lock'}); }
 if ( !$query{'time_zone'} ) { if ( param('time_zone') ) { $time_zone = quotemeta(param('time_zone')); } else { $time_zone = "Europe/Berlin"; } } else { $time_zone = quotemeta($query{'time_zone'}); }
 if ( !$query{'mqtt_broker'} ) { if ( param('mqtt_broker') ) { $mqtt_broker = quotemeta(param('mqtt_broker')); } else { $mqtt_broker = $mqttcred->{brokerhost}; } } else { $mqtt_broker = quotemeta($query{'mqtt_broker'}); }
 if ( !$query{'mqtt_port'} ) { if ( param('mqtt_port') ) { $mqtt_port = quotemeta(param('mqtt_port')); } else { $mqtt_port = $mqttcred->{brokerport}; } } else { $mqtt_port = quotemeta($query{'mqtt_port'}); }
@@ -93,7 +93,8 @@ if ( !$query{'mqtt_topic_prefix'} ) { if ( param('mqtt_topic_prefix') ) { $mqtt_
 if ( !$query{'mqtt_retain'} ) { if ( param('mqtt_retain') ) { $mqtt_retain = quotemeta(param('mqtt_retain')); } else { $mqtt_retain = "True"; } } else { $mqtt_retain = quotemeta($query{'mqtt_retain'}); }
 if ( !$query{'mqtt_qos'} ) { if ( param('mqtt_qos') ) { $mqtt_qos = quotemeta(param('mqtt_qos')); } else { $mqtt_qos = "2"; } } else { $mqtt_qos = quotemeta($query{'mqtt_qos'}); }
 if ( !$query{'auto_mode'} ) { if ( param('auto_mode') ) { $auto_mode = quotemeta(param('auto_mode')); } else { $auto_mode = $auto_mode;  } } else { $auto_mode = quotemeta($query{'auto_mode'}); }
-if ( !$query{'loop_mode'} ) { if ( param('loop_mode') ) { $loop_mode = quotemeta(param('loop_mode')); } else { $loop_mode = $loop_mode;  } } else { $loop_mode = quotemeta($query{'loop_mode'}); }
+if ( !$query{'loop_mode'} ) { if ( param('loop_mode') ) { $loop_mode = quotemeta(param('loop_mode')); } else { $loop_mode = "0";  } } else { $loop_mode = quotemeta($query{'loop_mode'}); }
+
 
 
 # Figure out in which subfolder we are installed
@@ -111,6 +112,7 @@ if (param('savedata')) {
 	print $DATEIHANDLER "lookup_timeout = " . unquotemeta($lookup_timeout) . "\n";
 	print $DATEIHANDLER "loop_time = " . unquotemeta($loop_time) . "\n";
 	print $DATEIHANDLER "rediscover_time = " . unquotemeta($rediscover_time) . "\n";
+		if ($remote_lock ne 1) { $remote_lock = 0 }
 	print $DATEIHANDLER "remote_lock = " . unquotemeta($remote_lock) . "\n";
 	print $DATEIHANDLER "time_zone = '" . unquotemeta($time_zone) . "'\n";
 	print $DATEIHANDLER "mqtt_broker = '" . unquotemeta($mqtt_broker) . "'\n";
@@ -122,10 +124,9 @@ if (param('savedata')) {
 	print $DATEIHANDLER "mqtt_topic_prefix = '" . unquotemeta($mqtt_topic_prefix) . "'\n";
 	print $DATEIHANDLER "mqtt_retain = " . unquotemeta($mqtt_retain) . "\n";
 	print $DATEIHANDLER "mqtt_qos = " . unquotemeta($mqtt_qos) . "\n";
-	print $DATEIHANDLER "auto_mode = " . unquotemeta($auto_mode) . "\n";
 		if ($auto_mode ne 1) { $auto_mode = 0 }
+	print $DATEIHANDLER "auto_mode = " . unquotemeta($auto_mode) . "\n";
 	print $DATEIHANDLER "loop_mode = " . unquotemeta($loop_mode) . "\n";
-		if ($loop_mode ne 1) { $loop_mode = 0 }
 	close($DATEIHANDLER);
 	
 	system ("$installfolder/system/daemons/plugins/$psubfolder restart");
@@ -163,6 +164,15 @@ if ($advanced eq "1") {
 	$select_advanced = '<option value="0" selected>off</option><option value="1">on</option>';
 }
 
+# Set advanced Data sending
+#
+
+if ($advanced eq "1") {
+	$select_advanced = '<option value="0">off</option><option value="1" selected>on</option>';
+} else {
+	$select_advanced = '<option value="0" selected>off</option><option value="1">on</option>';
+}
+
 # Set shedule Data sending
 #
 
@@ -190,6 +200,7 @@ if ($remote_lock eq "1") {
 } else {
 	$select_remote_lock = '<option value="0" selected>open</option><option value="1">locked</option>';
 }
+
 
 # ---------------------------------------
 # Fill Miniserver selection dropdown
