@@ -666,16 +666,16 @@ class hysen(device):
         data['sec'] =  payload[21]
         data['dayofweek'] =  payload[22]
 
-    weekday = []
-    for i in range(0, 6):
-      weekday.append({'start_hour':payload[2*i + 23], 'start_minute':payload[2*i + 24],'temp':payload[i + 39]/2.0})
+    if setting_shedule == 1:
+        weekday = []
+        for i in range(0, 6):
+            weekday.append({'start_hour':payload[2*i + 23], 'start_minute':payload[2*i + 24],'temp':payload[i + 39]/2.0})
+        data['weekday'] = weekday
+        weekend = []
+        for i in range(6, 8):
+            weekend.append({'start_hour':payload[2*i + 23], 'start_minute':payload[2*i + 24],'temp':payload[i + 39]/2.0})
+        data['weekend'] = weekend
     
-    data['weekday'] = weekday
-    weekend = []
-    for i in range(6, 8):
-      weekend.append({'start_hour':payload[2*i + 23], 'start_minute':payload[2*i + 24],'temp':payload[i + 39]/2.0})
-
-    data['weekend'] = weekend
     return data
 
   # Change controller mode
