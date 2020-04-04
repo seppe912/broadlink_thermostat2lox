@@ -38,8 +38,7 @@ our $rediscover_time;
 our $auto_mode;
 our $select_auto_mode;
 our $loop_mode;
-our $select_loop_mode;
-our $remote_lock;
+ouour $remote_lock;
 our $select_remote_lock;
 our $time_zone;
 our $mqtt_broker;
@@ -52,8 +51,7 @@ our $mqtt_topic_prefix;
 our $mqtt_retain;
 our $select_mqtt_retain;
 our $mqtt_qos;
-our $select_mqtt_qos;
-our $broadlink_thermostatstatus;
+ouour $broadlink_thermostatstatus;
 
 
 # Read Settings
@@ -94,9 +92,9 @@ if ( !$query{'mqtt_username'} ) { if ( param('mqtt_username') ) { $mqtt_username
 if ( !$query{'mqtt_password'} ) { if ( param('mqtt_password') ) { $mqtt_password = quotemeta(param('mqtt_password')); } else { $mqtt_password = $mqttcred->{brokerpass}; } } else { $mqtt_password = quotemeta($query{'mqtt_password'}); }
 if ( !$query{'mqtt_topic_prefix'} ) { if ( param('mqtt_topic_prefix') ) { $mqtt_topic_prefix = quotemeta(param('mqtt_topic_prefix')); } else { $mqtt_topic_prefix = "broadlink"; } } else { $mqtt_topic_prefix = quotemeta($query{'mqtt_topic_prefix'}); }
 if ( !$query{'mqtt_retain'} ) { if ( param('mqtt_retain') ) { $mqtt_retain = quotemeta(param('mqtt_retain')); } else { $mqtt_retain = $mqtt_retain; } } else { $mqtt_retain = quotemeta($query{'mqtt_retain'}); }
-if ( !$query{'mqtt_qos'} ) { if ( param('mqtt_qos') ) { $mqtt_qos = quotemeta(param('mqtt_qos')); } else { $mqtt_qos = $mqtt_qos; } } else { $mqtt_qos = quotemeta($query{'mqtt_qos'}); }
+if ( !$query{'mqtt_qos'} ) { if ( param('mqtt_qos') ) { $mqtt_qos = quotemeta(param('mqtt_qos')); } else { $mqtt_qos = "2"; } } else { $mqtt_qos = quotemeta($query{'mqtt_qos'}); }
 if ( !$query{'auto_mode'} ) { if ( param('auto_mode') ) { $auto_mode = quotemeta(param('auto_mode')); } else { $auto_mode = $auto_mode;  } } else { $auto_mode = quotemeta($query{'auto_mode'}); }
-if ( !$query{'loop_mode'} ) { if ( param('loop_mode') ) { $loop_mode = quotemeta(param('loop_mode')); } else { $loop_mode = $loop_mode;  } } else { $loop_mode = quotemeta($query{'loop_mode'}); }
+if ( !$query{'loop_mode'} ) { if ( param('loop_mode') ) { $loop_mode = quotemeta(param('loop_mode')); } else { $loop_mode = "0";  } } else { $loop_mode = quotemeta($query{'loop_mode'}); }
 
 
 
@@ -127,11 +125,9 @@ if (param('savedata')) {
 	print $DATEIHANDLER "mqtt_topic_prefix = '" . unquotemeta($mqtt_topic_prefix) . "'\n";
 		if ($mqtt_retain ne True) { $mqtt_retain = False }
 	print $DATEIHANDLER "mqtt_retain = " . unquotemeta($mqtt_retain) . "\n";
-		if ($mqtt_qos ne 1) { $mqtt_qos = 0 }
 	print $DATEIHANDLER "mqtt_qos = " . unquotemeta($mqtt_qos) . "\n";
 		if ($auto_mode ne 1) { $auto_mode = 0 }
 	print $DATEIHANDLER "auto_mode = " . unquotemeta($auto_mode) . "\n";
-		if ($loop_mode ne 1) { $loop_mode = 0 }
 	print $DATEIHANDLER "loop_mode = " . unquotemeta($loop_mode) . "\n";
 	close($DATEIHANDLER);
 	
@@ -214,28 +210,6 @@ if ($mqtt_retain eq "True") {
 	$select_mqtt_retain = '<option value="False">False</option><option value="True" selected>True</option>';
 } else {
 	$select_mqtt_retain = '<option value="False" selected>False</option><option value="True">True</option>';
-}
-
-# Set Qos-Retain Switch
-#
-
-if ($mqtt_qos eq "1") {
-	$select_mqtt_qos = '<option value="0">0</option><option value="1" selected>1</option><option value="2">2</option>';
-} else {
-	$select_mqtt_qos = '<option value="0" selected>0</option><option value="1">1</option><option value="2">2</option>';
-} else {
-	$select_mqtt_qos = '<option value="0">0</option><option value="1">1</option><option value="2" selected>2</option>';
-}
-
-# Set Loopmode Switch
-#
-
-if ($loop_mode eq "1") {
-	$select_loop_mode = '<option value="0">0</option><option value="1" selected>1</option><option value="2">2</option>';
-} else {
-	$select_loop_mode = '<option value="0" selected>0</option><option value="1">1</option><option value="2">2</option>';
-} else {
-	$select_loop_mode = '<option value="0">0</option><option value="1">1</option><option value="2" selected>2</option>';
 }
 
 
