@@ -131,6 +131,10 @@ if (param('savedata')) {
 	print $DATEIHANDLER "loop_mode = " . unquotemeta($loop_mode) . "\n";
 	close($DATEIHANDLER);
 	
+	open(my $DATEIHANDLER, ">$lbpconfigdir/mqtt_subscriptions.cfg");
+	print $DATEIHANDLER unquotemeta($mqtt_topic_prefix) . "/#";
+	close($DATEIHANDLER);
+	
 	system ("$installfolder/system/daemons/plugins/$psubfolder restart");
 }
 
