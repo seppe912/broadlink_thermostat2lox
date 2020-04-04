@@ -196,9 +196,9 @@ if ($auto_mode eq "1") {
 #
 
 if ($remote_lock eq "1") {
-	$select_remote_lock = '<option value="0">open</option><option value="1" selected>locked</option>';
+	$select_remote_lock = '<option value="0">open</option><option value="1" selected>lock</option>';
 } else {
-	$select_remote_lock = '<option value="0" selected>open</option><option value="1">locked</option>';
+	$select_remote_lock = '<option value="0" selected>open</option><option value="1">lock</option>';
 }
 
 
