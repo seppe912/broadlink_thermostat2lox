@@ -75,18 +75,22 @@
 <td width="50%"><label>rediscover_time</label></td>
 <td width="50%"><input name="rediscover_time" type="text" pattern="\d*" maxlength="5" value="<!--$rediscover_time-->" """ /></td>
 </tr>
-<tr>
-<td width="50%"><label>auto_mode</label></td>
-<td width="50%"><input name="auto_mode" type="text" pattern="\d*" maxlength="5" value="<!--$auto_mode-->" """ /></td>
-</tr>
+
 <tr>
 <td width="50%"><label>loop_mode: 0 Samstag u. Sonntag = Wochenende, 1 Sonntag ist Wochenende, 2 Kein Wochenende</label></td>
 <td width="50%"><input name="loop_mode" type="text" pattern="\d*" maxlength="5" value="<!--$loop_mode-->" """ /></td>
 </tr>
+
 <tr>
 <td width="50%"><label>remote_lock</label></td>
-<td width="50%"><input name="remote_lock" type="text" pattern="\d*" maxlength="5" value="<!--$remote_lock-->" """ /></td>
+<td width="50%"><fieldset><select id="shedule" name="shedule" data-role="flipswitch"><!--$select_remote_lock--></select></fieldset>
 </tr>
+
+<tr>
+<td width="50%"><label>auto_mode</label></td>
+<td width="50%"><fieldset><select id="shedule" name="shedule" data-role="flipswitch"><!--$select_auto_mode--></select></fieldset>
+</tr>		       
+		       
 <tr>
 <td width="50%"><label>time_zone</label></td>
 <td width="50%"><input name="time_zone" type="text" value="<!--$time_zone-->" """ /></td>
