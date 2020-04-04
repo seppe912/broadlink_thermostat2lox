@@ -14,8 +14,8 @@ import threading
 import codecs
 
 import os
-CONFIG = os.getenv('BROADLINKMQTTCONFIG', '/opt/loxberry/config/plugins/broadlink_thermostat2lox/broadlink-thermostat.cfg')
-execfile(filename, self.config)
+CONFIG = os.getenv('BROADLINKMQTTCONFIG', 'REPLACELBPCONFIGDIR/broadlink-thermostat.cfg')
+execfile(CONFIG)
 
 def gendevice(devtype, host, mac):
   if devtype == 0: # SP1
