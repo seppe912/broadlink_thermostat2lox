@@ -36,8 +36,10 @@ our $lookup_timeout;
 our $loop_time;
 our $rediscover_time;
 our $auto_mode;
+our $select_auto_mode;
 our $loop_mode;
 our $remote_lock;
+our $select_remote_lock;
 our $time_zone;
 our $mqtt_broker;
 our $mqtt_port;
@@ -165,6 +167,25 @@ if ($shedule eq "1") {
 	$select_shedule = '<option value="0">off</option><option value="1" selected>on</option>';
 } else {
 	$select_shedule = '<option value="0" selected>off</option><option value="1">on</option>';
+}
+
+# Set Auto-Mode Switch
+#
+
+if ($auto_mode eq "1") {
+	$select_auto_mode = '<option value="0">manual</option><option value="1" selected>auto</option>';
+} else {
+	$select_auto_mode = '<option value="0" selected>manual</option><option value="1">auto</option>';
+}
+
+
+# Set Remote-Lock Switch
+#
+
+if ($remote_lock eq "1") {
+	$select_remote_lock = '<option value="0">open</option><option value="1" selected>locked</option>';
+} else {
+	$select_remote_lock = '<option value="0" selected>open</option><option value="1">locked</option>';
 }
 
 # ---------------------------------------
