@@ -142,7 +142,7 @@ class ReadDevice(Process):
                                 if key == 'room_temp':
                                     print "  {} {} {}".format(self.divicemac, key, data[key])
                                 mqttc.publish('%s/%s/%s'%(self.conf.get('mqtt_topic_prefix', 'broadlink'), self.divicemac, key), data[key], qos=self.conf.get('mqtt_qos', 0), retain=self.conf.get('mqtt_retain', False))
-                        if self.conf.get('settings_shedule', 0) == 1:
+                        if self.conf.get('setting_shedule', 0) == 1:
                             mqttc.publish('%s/%s/%s'%(self.conf.get('mqtt_topic_prefix', 'broadlink'), self.divicemac, 'schedule'), json.dumps([data['weekday'],data['weekend']]), qos=self.conf.get('mqtt_qos', 0), retain=self.conf.get('mqtt_retain', False))
                 except Exception, e:
                     unhandeledException(e)
