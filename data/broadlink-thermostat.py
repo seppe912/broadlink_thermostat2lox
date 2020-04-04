@@ -73,7 +73,7 @@ class ReadDevice(Process):
     def run(self):
         print('PID child %d' % os.getpid())
         mqttc= mqtt.Client(self.conf.get('mqtt_clientid', 'broadlink')+'-%s-%s' % (self.divicemac,os.getpid()), clean_session=self.conf.get('mqtt_clean_session', False))
-        mqttc.will_set('%s/%s'%(self.conf.get('mqtt_topic_prefix', '/broadlink'), self.divicemac), payload="Disconnect", qos=self.conf.get('mqtt_qos', 0), retain=False)
+        mqttc.will_set('%s/%s'%(self.conf.get('mqtt_topic_prefix', 'broadlink'), self.divicemac), payload="Disconnect", qos=self.conf.get('mqtt_qos', 0), retain=False)
         mqttc.reconnect_delay_set(min_delay=3, max_delay=30)
         if self.conf.get('tls') == True:
             mqttc.tls_set(self.conf.get('ca_certs'), self.conf.get('certfile'), self.conf.get('keyfile'), tls_version=self.conf.get('tls_version'), ciphers=None)
@@ -136,13 +136,13 @@ class ReadDevice(Process):
                             return
                         for key in data:
                             if type(data[key]).__name__ == 'list':
-                                mqttc.publish('%s/%s/%s'%(self.conf.get('mqtt_topic_prefix', '/broadlink'), self.divicemac, key), json.dumps(data[key]), qos=self.conf.get('mqtt_qos', 0), retain=self.conf.get('mqtt_retain', False))
+                                mqttc.publish('%s/%s/%s'%(self.conf.get('mqtt_topic_prefix', 'broadlink'), self.divicemac, key), json.dumps(data[key]), qos=self.conf.get('mqtt_qos', 0), retain=self.conf.get('mqtt_retain', False))
                                 pass
                             else:
                                 if key == 'room_temp':
                                     print "  {} {} {}".format(self.divicemac, key, data[key])
-                                mqttc.publish('%s/%s/%s'%(self.conf.get('mqtt_topic_prefix', '/broadlink'), self.divicemac, key), data[key], qos=self.conf.get('mqtt_qos', 0), retain=self.conf.get('mqtt_retain', False))
-                        mqttc.publish('%s/%s/%s'%(self.conf.get('mqtt_topic_prefix', '/broadlink'), self.divicemac, 'schedule'), json.dumps([data['weekday'],data['weekend']]), qos=self.conf.get('mqtt_qos', 0), retain=self.conf.get('mqtt_retain', False))
+                                mqttc.publish('%s/%s/%s'%(self.conf.get('mqtt_topic_prefix', 'broadlink'), self.divicemac, key), data[key], qos=self.conf.get('mqtt_qos', 0), retain=self.conf.get('mqtt_retain', False))
+                        mqttc.publish('%s/%s/%s'%(self.conf.get('mqtt_topic_prefix', 'broadlink'), self.divicemac, 'schedule'), json.dumps([data['weekday'],data['weekend']]), qos=self.conf.get('mqtt_qos', 0), retain=self.conf.get('mqtt_retain', False))
                 except Exception, e:
                     unhandeledException(e)
                     mqttc.loop_stop()
@@ -171,7 +171,7 @@ def main():
     founddevices = {}
     
     def on_message(client, pipes, msg):
-        topic = msg.topic.replace(conf.get('mqtt_topic_prefix', '/broadlink'),'')
+        topic = msg.topic.replace(conf.get('mqtt_topic_prefix', 'broadlink'),'')
         cmd = topic.split('/')
         devicemac = cmd[1]
         command = cmd[3]
@@ -198,7 +198,7 @@ def main():
             j.join()
 
     def on_connect(client, userdata, flags, rc):
-        client.publish(conf.get('mqtt_topic_prefix', '/broadlink'), 'Connect')
+        client.publish(conf.get('mqtt_topic_prefix', 'broadlink'), 'Connect')
         print("Connect, reason: " + str(rc))
 
     def on_log(mosq, obj, level, string):
@@ -209,7 +209,7 @@ def main():
     mqttc.on_connect = on_connect
     mqttc.on_disconnect = on_disconnect
     #mqttc.on_log = on_log
-    mqttc.will_set(conf.get('mqtt_topic_prefix', '/broadlink'), payload="Disconnect", qos=conf.get('mqtt_qos', 0), retain=False)
+    mqttc.will_set(conf.get('mqtt_topic_prefix', 'broadlink'), payload="Disconnect", qos=conf.get('mqtt_qos', 0), retain=False)
     mqttc.reconnect_delay_set(min_delay=3, max_delay=30)
     if conf.get('tls') == True:
         mqttc.tls_set(conf.get('ca_certs'), conf.get('certfile'), conf.get('keyfile'), tls_version=conf.get('tls_version'), ciphers=None)
