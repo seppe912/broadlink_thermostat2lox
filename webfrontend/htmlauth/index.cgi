@@ -24,8 +24,8 @@ our $cache;
 our $helptext;
 our $language;	
 our $select_language;
-#our $debug;
-#our $select_debug;
+our $advanced;
+our $select_advanced;
 our $do;
 our $select_ms;
 our $savedata;
@@ -72,6 +72,7 @@ foreach (split(/&/,$ENV{"QUERY_STRING"}))
 # Set parameters coming in - GET over POST
 #if ( !$query{'miniserver'} ) { if ( param('miniserver') ) { $miniserver = quotemeta(param('miniserver')); } else { $miniserver = $miniserver;  } } else { $miniserver = quotemeta($query{'miniserver'}); }
 
+if ( !$query{'advanced'} ) { if ( param('advanced') ) { $advanced = quotemeta(param('advanced')); } else { $advanced = $advanced;  } } else { $advanced = quotemeta($query{'advanced'}); }
 if ( !$query{'lookup_timeout'} ) { if ( param('lookup_timeout') ) { $lookup_timeout = quotemeta(param('lookup_timeout')); } else { $lookup_timeout = "20"; } } else { $lookup_timeout = quotemeta($query{'lookup_timeout'}); }
 if ( !$query{'loop_time'} ) { if ( param('loop_time') ) { $loop_time = quotemeta(param('loop_time')); } else { $loop_time = "10"; } } else { $loop_time = quotemeta($query{'loop_time'}); }
 if ( !$query{'rediscover_time'} ) { if ( param('rediscover_time') ) { $rediscover_time = quotemeta(param('rediscover_time')); } else { $rediscover_time = "600"; } } else { $rediscover_time = quotemeta($query{'rediscover_time'}); }
@@ -98,6 +99,8 @@ $psubfolder =~ s/(.*)\/(.*)\/(.*)$/$2/g;
 if (param('savedata')) {
 	
 	open(my $DATEIHANDLER, ">$lbpconfigdir/broadlink-thermostat.cfg");
+		if ($advanced ne 1) { $advanced = 0 }
+	print $DATEIHANDLER "setting_advanced = " . unquotemeta($advanced) . "\n";
 	print $DATEIHANDLER "lookup_timeout = " . unquotemeta($lookup_timeout) . "\n";
 	print $DATEIHANDLER "loop_time = " . unquotemeta($loop_time) . "\n";
 	print $DATEIHANDLER "rediscover_time = " . unquotemeta($rediscover_time) . "\n";
@@ -122,8 +125,7 @@ if (param('savedata')) {
 # Parse config file
 $conf = new Config::Simple("$lbpconfigdir/broadlink-thermostat.cfg");
 #$miniserver = encode_entities($conf->param('MINISERVER'));
-$lang = encode_entities($conf->param('LANGUAGE'));	
-$udp_port = encode_entities($conf->param('UDP_PORT'));
+$advanced = encode_entities($conf->param('setting_advanced'));
 $lookup_timeout = encode_entities($conf->param('lookup_timeout'));
 $loop_time = encode_entities($conf->param('loop_time'));
 $rediscover_time = encode_entities($conf->param('rediscover_time'));
@@ -142,14 +144,14 @@ $loop_mode = encode_entities($conf->param('loop_mode'));
 $auto_mode = encode_entities($conf->param('auto_mode'));
 
 
-# Set Enabled / Disabled switch
+# Set advanced Data sending
 #
 
-#if ($debug eq "1") {
-#	$select_debug = '<option value="0">off</option><option value="1" selected>on</option>';
-#} else {
-#	$select_debug = '<option value="0" selected>off</option><option value="1">on</option>';
-#}
+if ($advanced eq "1") {
+	$select_advanced = '<option value="0">off</option><option value="1" selected>on</option>';
+} else {
+	$select_advanced = '<option value="0" selected>off</option><option value="1">on</option>';
+}
 
 
 # ---------------------------------------
