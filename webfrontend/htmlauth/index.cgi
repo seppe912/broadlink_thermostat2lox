@@ -123,7 +123,7 @@ if (param('savedata')) {
 	print $DATEIHANDLER "mqtt_username = '" . unquotemeta($mqtt_username) . "'\n";
 	print $DATEIHANDLER "mqtt_password = '" . unquotemeta($mqtt_password) . "'\n";
 	print $DATEIHANDLER "mqtt_topic_prefix = '" . unquotemeta($mqtt_topic_prefix) . "'\n";
-		if ($mqtt_retain ne 1) { $mqtt_retain = 0 }
+		if ($mqtt_retain ne True) { $mqtt_retain = False }
 	print $DATEIHANDLER "mqtt_retain = " . unquotemeta($mqtt_retain) . "\n";
 	print $DATEIHANDLER "mqtt_qos = " . unquotemeta($mqtt_qos) . "\n";
 		if ($auto_mode ne 1) { $auto_mode = 0 }
