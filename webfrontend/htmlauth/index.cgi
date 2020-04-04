@@ -106,6 +106,7 @@ if (param('savedata')) {
 	open(my $DATEIHANDLER, ">$lbpconfigdir/broadlink-thermostat.cfg");
 		if ($advanced ne 1) { $advanced = 0 }
 	print $DATEIHANDLER "setting_advanced = " . unquotemeta($advanced) . "\n";
+		if ($shedule ne 1) { $shedule = 0 }
 	print $DATEIHANDLER "setting_shedule = " . unquotemeta($shedule) . "\n";
 	print $DATEIHANDLER "lookup_timeout = " . unquotemeta($lookup_timeout) . "\n";
 	print $DATEIHANDLER "loop_time = " . unquotemeta($loop_time) . "\n";
@@ -122,7 +123,9 @@ if (param('savedata')) {
 	print $DATEIHANDLER "mqtt_retain = " . unquotemeta($mqtt_retain) . "\n";
 	print $DATEIHANDLER "mqtt_qos = " . unquotemeta($mqtt_qos) . "\n";
 	print $DATEIHANDLER "auto_mode = " . unquotemeta($auto_mode) . "\n";
+		if ($auto_mode ne 1) { $auto_mode = 0 }
 	print $DATEIHANDLER "loop_mode = " . unquotemeta($loop_mode) . "\n";
+		if ($loop_mode ne 1) { $loop_mode = 0 }
 	close($DATEIHANDLER);
 	
 	system ("$installfolder/system/daemons/plugins/$psubfolder restart");
@@ -173,9 +176,9 @@ if ($shedule eq "1") {
 #
 
 if ($auto_mode eq "1") {
-	$select_auto_mode = '<option value="0">manual</option><option value="1" selected>auto</option>';
+	$select_auto_mode = '<option value="0">man</option><option value="1" selected>auto</option>';
 } else {
-	$select_auto_mode = '<option value="0" selected>manual</option><option value="1">auto</option>';
+	$select_auto_mode = '<option value="0" selected>man</option><option value="1">auto</option>';
 }
 
 
