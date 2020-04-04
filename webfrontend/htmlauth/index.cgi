@@ -51,7 +51,7 @@ our $mqtt_topic_prefix;
 our $mqtt_retain;
 our $select_mqtt_retain;
 our $mqtt_qos;
-ouour $broadlink_thermostatstatus;
+our $broadlink_thermostatstatus;
 
 
 # Read Settings
