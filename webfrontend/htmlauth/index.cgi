@@ -92,8 +92,8 @@ if ( !$query{'mqtt_password'} ) { if ( param('mqtt_password') ) { $mqtt_password
 if ( !$query{'mqtt_topic_prefix'} ) { if ( param('mqtt_topic_prefix') ) { $mqtt_topic_prefix = quotemeta(param('mqtt_topic_prefix')); } else { $mqtt_topic_prefix = "broadlink"; } } else { $mqtt_topic_prefix = quotemeta($query{'mqtt_topic_prefix'}); }
 if ( !$query{'mqtt_retain'} ) { if ( param('mqtt_retain') ) { $mqtt_retain = quotemeta(param('mqtt_retain')); } else { $mqtt_retain = "True"; } } else { $mqtt_retain = quotemeta($query{'mqtt_retain'}); }
 if ( !$query{'mqtt_qos'} ) { if ( param('mqtt_qos') ) { $mqtt_qos = quotemeta(param('mqtt_qos')); } else { $mqtt_qos = "2"; } } else { $mqtt_qos = quotemeta($query{'mqtt_qos'}); }
-if ( !$query{'auto_mode'} ) { if ( param('auto_mode') ) { $auto_mode = quotemeta(param('auto_mode')); } else { $auto_mode = "0"; } } else { $auto_mode = quotemeta($query{'auto_mode'}); }
-if ( !$query{'loop_mode'} ) { if ( param('loop_mode') ) { $loop_mode = quotemeta(param('loop_mode')); } else { $loop_mode = "0"; } } else { $loop_mode = quotemeta($query{'loop_mode'}); }
+if ( !$query{'auto_mode'} ) { if ( param('auto_mode') ) { $auto_mode = quotemeta(param('auto_mode')); } else { $auto_mode = $auto_mode;  } } else { $auto_mode = quotemeta($query{'auto_mode'}); }
+if ( !$query{'loop_mode'} ) { if ( param('loop_mode') ) { $loop_mode = quotemeta(param('loop_mode')); } else { $loop_mode = $loop_mode;  } } else { $loop_mode = quotemeta($query{'loop_mode'}); }
 
 
 # Figure out in which subfolder we are installed
