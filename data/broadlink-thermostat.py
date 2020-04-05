@@ -199,7 +199,7 @@ def main():
             j.join()
 
     def on_connect(client, userdata, flags, rc):
-        client.publish(conf.get('mqtt_topic_prefix', 'broadlink'), 'Connect')
+        client.publish('%s/%s'%(conf.get('mqtt_topic_prefix', 'broadlink'), 'broadlink_thermostat2lox_status'), 'Connected')
         print(("Connect, reason: " + str(rc)))
 
     def on_log(mosq, obj, level, string):
@@ -210,7 +210,7 @@ def main():
     mqttc.on_connect = on_connect
     mqttc.on_disconnect = on_disconnect
     #mqttc.on_log = on_log
-    mqttc.will_set(conf.get('mqtt_topic_prefix', 'broadlink'), payload="Disconnect", qos=conf.get('mqtt_qos', 0), retain=False)
+    mqttc.will_set('%s/%s'%(conf.get('mqtt_topic_prefix', 'broadlink'), 'broadlink_thermostat2lox_status'), payload="Disconnect", qos=conf.get('mqtt_qos', 0), retain=False)
     mqttc.reconnect_delay_set(min_delay=3, max_delay=30)
     if conf.get('tls') == True:
         mqttc.tls_set(conf.get('ca_certs'), conf.get('certfile'), conf.get('keyfile'), tls_version=conf.get('tls_version'), ciphers=None)
