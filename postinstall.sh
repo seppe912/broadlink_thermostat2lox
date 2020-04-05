@@ -49,6 +49,8 @@ ARGV3=$3 # Third argument is Plugin installation folder
 ARGV5=$5 # Fifth argument is Base folder of LoxBerry
 
 chmod +x $PDATA/broadlink-thermostat.py
+pip install pytz
+pip install pycryptodome
 
 # Exit with Status 0
 exit 0
