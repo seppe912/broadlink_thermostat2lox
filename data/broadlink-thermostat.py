@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 # -*- coding: utf-8 -*
 from multiprocessing import Process, Lock, Pipe
 import multiprocessing, argparse, time, datetime, sys, os, signal, traceback, socket, sched, atexit
@@ -27,7 +27,7 @@ class Config(object):
         self.config['keyfile']      = None
         self.config['tls_insecure'] = False
         self.config['tls']          = False
-        execfile(filename, self.config)
+        exec(compile(open(filename).read(), filename, 'exec'), self.config)
 
         if HAVE_TLS == False:
             logging.error("TLS parameters set but no TLS available (SSL)")
@@ -45,7 +45,7 @@ class Config(object):
                     self.config['tls_version'] = ssl.PROTOCOL_TLSv1_2
                 else:
                     logging.error("TLS version 1.2 not available but 'tlsv1.2' is set.")
-            	    sys.exit(2)
+                    sys.exit(2)
             if self.config.get('tls_version') == 'sslv3':
                 self.config['tls_version'] = ssl.PROTOCOL_SSLv3
 
@@ -71,7 +71,7 @@ class ReadDevice(Process):
 
 
     def run(self):
-        print('PID child %d' % os.getpid())
+        print(('PID child %d' % os.getpid()))
         mqttc= mqtt.Client(self.conf.get('mqtt_clientid', 'broadlink')+'-%s-%s' % (self.divicemac,os.getpid()), clean_session=self.conf.get('mqtt_clean_session', False))
         mqttc.will_set('%s/%s'%(self.conf.get('mqtt_topic_prefix', 'broadlink'), self.divicemac), payload="Disconnect", qos=self.conf.get('mqtt_qos', 0), retain=False)
         mqttc.reconnect_delay_set(min_delay=3, max_delay=30)
@@ -85,12 +85,12 @@ class ReadDevice(Process):
         try:
             if self.device.auth():
                 self.run = True
-                print self.device.type
+                print(self.device.type)
                 timezone = pytz.timezone(self.conf.get('time_zone','Europe/Berlin'))
                 now=datetime.datetime.now(timezone)
                 # set device time
                 self.device.set_time(now.hour, now.minute, now.second, now.weekday()+1)
-                print('set time %d:%d:%d %d' % (now.hour, now.minute, now.second, now.weekday()+1))
+                print(('set time %d:%d:%d %d' % (now.hour, now.minute, now.second, now.weekday()+1)))
                 # set auto_mode = 0, loop_mode = 0 ("12345,67")
                 self.device.set_mode(self.conf.get('auto_mode', 0), self.conf.get('loop_mode', 0))
                 # set device on, remote_lock off
@@ -117,7 +117,7 @@ class ReadDevice(Process):
                                 try:
                                     schedule=json.loads(opts)
                                     self.device.set_schedule(schedule[0],schedule[1])
-                                except Exception, e:
+                                except Exception as e:
                                     pass
                         else:
                             if result == 'STOP':
@@ -130,7 +130,7 @@ class ReadDevice(Process):
                         except socket.timeout:
                             mqttc.loop_stop()
                             return
-                        except Exception, e:
+                        except Exception as e:
                             unhandeledException(e)
                             mqttc.loop_stop()
                             return
@@ -140,11 +140,11 @@ class ReadDevice(Process):
                                 pass
                             else:
                                 if key == 'room_temp':
-                                    print "  {} {} {}".format(self.divicemac, key, data[key])
+                                    print("  {} {} {}".format(self.divicemac, key, data[key]))
                                 mqttc.publish('%s/%s/%s'%(self.conf.get('mqtt_topic_prefix', 'broadlink'), self.divicemac, key), data[key], qos=self.conf.get('mqtt_qos', 0), retain=self.conf.get('mqtt_retain', False))
                         if self.conf.get('setting_shedule', 0) == 1:
                             mqttc.publish('%s/%s/%s'%(self.conf.get('mqtt_topic_prefix', 'broadlink'), self.divicemac, 'schedule'), json.dumps([data['weekday'],data['weekend']]), qos=self.conf.get('mqtt_qos', 0), retain=self.conf.get('mqtt_retain', False))
-                except Exception, e:
+                except Exception as e:
                     unhandeledException(e)
                     mqttc.loop_stop()
                     return
@@ -155,7 +155,7 @@ class ReadDevice(Process):
             mqttc.loop_stop()
             return
 
-        except Exception, e:
+        except Exception as e:
             unhandeledException(e)
             mqttc.loop_stop()
             return
@@ -163,8 +163,8 @@ class ReadDevice(Process):
 def main():
     try:
         conf = Config()
-    except Exception, e:
-        print "Cannot load configuration from file %s: %s" % (CONFIG, str(e))
+    except Exception as e:
+        print("Cannot load configuration from file %s: %s" % (CONFIG, str(e)))
         sys.exit(2)
 
     jobs = []
@@ -177,19 +177,19 @@ def main():
         devicemac = cmd[1]
         command = cmd[3]
         if cmd[2] == 'cmd':
-            print "Received command %s for device %s" % (command, devicemac)
+            print("Received command %s for device %s" % (command, devicemac))
             try:
                 for (ID, pipe) in pipes:
                     if ID==devicemac:
-                        print 'send to pipe %s' % ID
+                        print('send to pipe %s' % ID)
                         pipe.send((command, msg.payload))
             except:
-                print "Unexpected error:", sys.exc_info()[0]
+                print("Unexpected error:", sys.exc_info()[0])
                 raise
 
     def on_disconnect(client, empty, rc):
-        print("Disconnect, reason: " + str(rc))
-        print("Disconnect, reason: " + str(client))
+        print(("Disconnect, reason: " + str(rc)))
+        print(("Disconnect, reason: " + str(client)))
         client.loop_stop()
         time.sleep(10)
         
@@ -200,7 +200,7 @@ def main():
 
     def on_connect(client, userdata, flags, rc):
         client.publish(conf.get('mqtt_topic_prefix', 'broadlink'), 'Connect')
-        print("Connect, reason: " + str(rc))
+        print(("Connect, reason: " + str(rc)))
 
     def on_log(mosq, obj, level, string):
         print(string)
@@ -228,39 +228,39 @@ def main():
             for idx, j in enumerate(jobs):
                 if not j.is_alive():
                     try:
-                        print "Killing job."
+                        print("Killing job.")
                         j.join()
                     except:
-                        print "Error killing job."
+                        print("Error killing job.")
                         pass
                     try:
-                        print "Deleting pipe from pipes array"
+                        print("Deleting pipe from pipes array")
                         for idy, (ID, pipe) in enumerate(pipes):
                             if ID==founddevices[j.pid]:
                                 del pipes[idy]
                     except:
-                        print "Error deleting pipe from pipes array"
+                        print("Error deleting pipe from pipes array")
                     try:
-                        print "Deleting device from founddevices array."
+                        print("Deleting device from founddevices array.")
                         del founddevices[j.pid]
                     except:
-                        print "Error deleting device from founddevices array."
+                        print("Error deleting device from founddevices array.")
                         pass
                     try:
-                        print "Deleting job from jobs array."
+                        print("Deleting job from jobs array.")
                         del jobs[idx]
                     except:
-                        print "Error deleting job from jobs array."
+                        print("Error deleting job from jobs array.")
                         pass
-            print "broadlink discover"
+            print("broadlink discover")
             devices = broadlink.discover(timeout=conf.get('lookup_timeout', 5))
             for device in devices:
                 divicemac = ''.join(format(x, '02x') for x in device.mac)
-                if divicemac not in founddevices.values():
+                if divicemac not in list(founddevices.values()):
                     transportPipe, MasterPipe = Pipe()
                     pipes.append((divicemac, MasterPipe))
 
-                    print "found: {} {}".format(device.host[0], ''.join(format(x, '02x') for x in device.mac))
+                    print("found: {} {}".format(device.host[0], ''.join(format(x, '02x') for x in device.mac)))
                     p = ReadDevice(transportPipe, divicemac, device, conf)
                     jobs.append(p)
                     p.start()
@@ -268,12 +268,12 @@ def main():
                     time.sleep(2)
             mqttc.user_data_set(pipes)
             mqttc.loop_stop()
-            print "Reconnect"
+            print("Reconnect")
             mqttc.loop_start()
             time.sleep(conf.get('rediscover_time', 600))
         except KeyboardInterrupt:
             run = False
-        except Exception, e:
+        except Exception as e:
             run = False
             unhandeledException(e)
         except SignalException_SIGKILL:
