@@ -3,7 +3,7 @@
 #
 
 python3-paho-mqtt
-python3-pycryptodome
+python-pycryptodome
 python3-pyaes
 python3-pytz
 libstring-escape-perl
