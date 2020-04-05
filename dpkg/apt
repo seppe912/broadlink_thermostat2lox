@@ -2,6 +2,6 @@
 # One line per package, use exact packagename as you would do for apt-get.
 #
 
-python-paho-mqtt
-python-pycryptodome
+python3-paho-mqtt
+python3-pycryptodome
 libstring-escape-perl
