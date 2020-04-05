@@ -3,4 +3,5 @@
 #
 
 python-paho-mqtt
+python-pycryptodome
 libstring-escape-perl
