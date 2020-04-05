@@ -52,7 +52,7 @@
 </tr>
 <tr>
 <td width="50%"><label>mqtt_retain</label></td>
-<td width="50%"><fieldset><select id="remote_lock" name="remote_lock" data-role="flipswitch"><!--$select_mqtt_retain--></select></fieldset>
+<td width="50%"><fieldset><select id="mqtt_retain" name="mqtt_retain" data-role="flipswitch"><!--$select_mqtt_retain--></select></fieldset>
 </tr>
 <tr>
 <td width="50%"><label>mqtt_qos</label></td>
@@ -78,7 +78,7 @@
 
 <tr>
 <td width="50%"><label>loop_mode: 0 Samstag u. Sonntag = Wochenende, 1 Sonntag ist Wochenende, 2 Kein Wochenende</label></td>
-<td width="50%"><input name="loop_mode" type="text" pattern="\d*" maxlength="5" value="<!--$loop_mode-->" """ /></td>
+<td width="50%"><input name="loop_mode" type="text" value="<!--$loop_mode-->" """ /></td>
 </tr>
 
 <tr>
@@ -143,7 +143,7 @@
 					    <td width="50%"><label>Zum übertragen der Einstellungen vom MQTT-Plugin entsprechende Felder leer lassen und auf Save drücken. Die Werte werden beim Speichern übertragen.</label></td>
                         <td width="25%">&nbsp</td>
                         <td width="50%">
-                            <input id="do" name="do" type="submit" value="Save">
+                            <input id="do" name="do" type="submit" value="Save & restart">
                         </td>
                         <td width="25%">
                             &nbsp;
