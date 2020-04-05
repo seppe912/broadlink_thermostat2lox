@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 
 from datetime import datetime
 try:
@@ -15,7 +15,7 @@ import codecs
 
 import os
 CONFIG = os.getenv('BROADLINKMQTTCONFIG', 'REPLACELBPCONFIGDIR/broadlink-thermostat.cfg')
-execfile(CONFIG)
+exec(compile(open(CONFIG).read(), CONFIG, 'exec'))
 
 def gendevice(devtype, host, mac):
   if devtype == 0: # SP1
