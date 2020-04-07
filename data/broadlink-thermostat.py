@@ -153,8 +153,6 @@ class ReadDevice(Process):
                                     print("{} ist neuer".format(data[key]))
                                     mqttc.publish('%s/%s/%s'%(self.conf.get('mqtt_topic_prefix', 'broadlink'), self.divicemac, key), data[key], qos=self.conf.get('mqtt_qos', 0), retain=self.conf.get('mqtt_retain', False))
                                     cache[key] = data[key]
-                        if self.conf.get('setting_shedule', 0) == 1:
-                            mqttc.publish('%s/%s/%s'%(self.conf.get('mqtt_topic_prefix', 'broadlink'), self.divicemac, 'schedule'), json.dumps([data['weekday'],data['weekend']]), qos=self.conf.get('mqtt_qos', 0), retain=self.conf.get('mqtt_retain', False))
                 except Exception as e:
                     unhandeledException(e)
                     mqttc.loop_stop()
