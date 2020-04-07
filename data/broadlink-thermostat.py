@@ -84,6 +84,7 @@ class ReadDevice(Process):
         mqttc.loop_start()
         try:
             if self.device.auth():
+                cache = {}
                 self.run = True
                 print(self.device.type)
                 timezone = pytz.timezone(self.conf.get('time_zone','Europe/Berlin'))
@@ -141,7 +142,17 @@ class ReadDevice(Process):
                             else:
                                 if key == 'room_temp':
                                     print("  {} {} {}".format(self.divicemac, key, data[key]))
-                                mqttc.publish('%s/%s/%s'%(self.conf.get('mqtt_topic_prefix', 'broadlink'), self.divicemac, key), data[key], qos=self.conf.get('mqtt_qos', 0), retain=self.conf.get('mqtt_retain', False))
+                                    mqttc.publish('%s/%s/%s'%(self.conf.get('mqtt_topic_prefix', 'broadlink'), self.divicemac, key), data[key], qos=self.conf.get('mqtt_qos', 0), retain=self.conf.get('mqtt_retain', False))
+                                print("DataeKey: {} ".format(data[key]))
+                                try:
+                                    print("CacheKey: {} ".format(cache[key]))
+                                except KeyError:
+                                    cache[key] = 'None'
+                                    print("CacheKey: {} ".format(cache[key]))
+                                if data[key] != cache[key]:
+                                    print("{} ist neuer".format(data[key]))
+                                    mqttc.publish('%s/%s/%s'%(self.conf.get('mqtt_topic_prefix', 'broadlink'), self.divicemac, key), data[key], qos=self.conf.get('mqtt_qos', 0), retain=self.conf.get('mqtt_retain', False))
+                                    cache[key] = data[key]
                         if self.conf.get('setting_shedule', 0) == 1:
                             mqttc.publish('%s/%s/%s'%(self.conf.get('mqtt_topic_prefix', 'broadlink'), self.divicemac, 'schedule'), json.dumps([data['weekday'],data['weekend']]), qos=self.conf.get('mqtt_qos', 0), retain=self.conf.get('mqtt_retain', False))
                 except Exception as e:
