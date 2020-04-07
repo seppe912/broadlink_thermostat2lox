@@ -12,6 +12,7 @@ import socket
 import sys
 import threading
 import codecs
+import json
 
 import os
 CONFIG = os.getenv('BROADLINKMQTTCONFIG', 'REPLACELBPCONFIGDIR/broadlink-thermostat.cfg')
@@ -675,6 +676,8 @@ class hysen(device):
         for i in range(6, 8):
             weekend.append({'start_hour':payload[2*i + 23], 'start_minute':payload[2*i + 24],'temp':payload[i + 39]/2.0})
         data['weekend'] = weekend
+        schedule = json.dumps([data['weekday'],data['weekend']])
+        data['schedule'] = schedule
     
     return data
 
