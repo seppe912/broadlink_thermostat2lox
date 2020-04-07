@@ -143,7 +143,7 @@ class ReadDevice(Process):
                                 if key == 'room_temp':
                                     print("  {} {} {}".format(self.divicemac, key, data[key]))
                                     mqttc.publish('%s/%s/%s'%(self.conf.get('mqtt_topic_prefix', 'broadlink'), self.divicemac, key), data[key], qos=self.conf.get('mqtt_qos', 0), retain=self.conf.get('mqtt_retain', False))
-                                print("DataeKey: {} ".format(data[key]))
+                                print("DataKey: {} ".format(data[key]))
                                 try:
                                     print("CacheKey: {} ".format(cache[key]))
                                 except KeyError:
