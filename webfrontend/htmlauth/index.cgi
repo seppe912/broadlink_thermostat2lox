@@ -52,6 +52,8 @@ our $mqtt_retain;
 our $select_mqtt_retain;
 our $mqtt_qos;
 our $broadlink_thermostatstatus;
+our $select_set_modes_on_discover;
+our $set_modes_on_discover;
 
 
 # Read Settings
@@ -95,7 +97,7 @@ if ( !$query{'mqtt_retain'} ) { if ( param('mqtt_retain') ) { $mqtt_retain = quo
 if ( !$query{'mqtt_qos'} ) { if ( param('mqtt_qos') ) { $mqtt_qos = quotemeta(param('mqtt_qos')); } else { $mqtt_qos = "2"; } } else { $mqtt_qos = quotemeta($query{'mqtt_qos'}); }
 if ( !$query{'auto_mode'} ) { if ( param('auto_mode') ) { $auto_mode = quotemeta(param('auto_mode')); } else { $auto_mode = $auto_mode;  } } else { $auto_mode = quotemeta($query{'auto_mode'}); }
 if ( !$query{'loop_mode'} ) { if ( param('loop_mode') ) { $loop_mode = quotemeta(param('loop_mode')); } else { $loop_mode = "0";  } } else { $loop_mode = quotemeta($query{'loop_mode'}); }
-
+if ( !$query{'set_modes_on_discover'} ) { if ( param('set_modes_on_discover') ) { $set_modes_on_discover = quotemeta(param('set_modes_on_discover')); } else { $set_modes_on_discover = $set_modes_on_discover;  } } else { $set_modes_on_discover = quotemeta($query{'set_modes_on_discover'}); }
 
 
 # Figure out in which subfolder we are installed
@@ -129,6 +131,9 @@ if (param('savedata')) {
 		if ($auto_mode ne 1) { $auto_mode = 0 }
 	print $DATEIHANDLER "auto_mode = " . unquotemeta($auto_mode) . "\n";
 	print $DATEIHANDLER "loop_mode = " . unquotemeta($loop_mode) . "\n";
+        	if ($set_modes_on_discover ne 1) { $set_modes_on_discover = 0 }
+	print $DATEIHANDLER "set_modes_on_discover = " . unquotemeta($set_modes_on_discover) . "\n";
+
 	close($DATEIHANDLER);
 	
 	open(my $DATEIHANDLER, ">$lbpconfigdir/mqtt_subscriptions.cfg");
@@ -159,7 +164,7 @@ $mqtt_retain = encode_entities($conf->param('mqtt_retain'));
 $mqtt_qos = encode_entities($conf->param('mqtt_qos'));
 $loop_mode = encode_entities($conf->param('loop_mode'));
 $auto_mode = encode_entities($conf->param('auto_mode'));
-
+$set_modes_on_discover = encode_entities($conf->param('set_modes_on_discover'));
 
 # Set advanced Data sending
 #
@@ -186,6 +191,16 @@ if ($schedule eq "1") {
 	$select_schedule = '<option value="0">off</option><option value="1" selected>on</option>';
 } else {
 	$select_schedule = '<option value="0" selected>off</option><option value="1">on</option>';
+}
+
+
+# set_modes_on_discover
+#
+
+if ($set_modes_on_discover eq "1") {
+	$select_set_modes_on_discover = '<option value="0">off</option><option value="1" selected>on</option>';
+} else {
+	$select_set_modes_on_discover = '<option value="0" selected>off</option><option value="1">on</option>';
 }
 
 # Set Auto-Mode Switch
