@@ -54,6 +54,7 @@ our $mqtt_qos;
 our $broadlink_thermostatstatus;
 our $select_set_modes_on_discover;
 our $set_modes_on_discover;
+our $switch_disable;
 
 
 # Read Settings
@@ -201,6 +202,7 @@ if ($set_modes_on_discover eq "1") {
 	$select_set_modes_on_discover = '<option value="0">off</option><option value="1" selected>on</option>';
 } else {
 	$select_set_modes_on_discover = '<option value="0" selected>off</option><option value="1">on</option>';
+    	$switch_disable = 'disabled';
 }
 
 # Set Auto-Mode Switch
