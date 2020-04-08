@@ -140,17 +140,15 @@ class ReadDevice(Process):
                                 mqttc.publish('%s/%s/%s'%(self.conf.get('mqtt_topic_prefix', 'broadlink'), self.divicemac, key), json.dumps(data[key]), qos=self.conf.get('mqtt_qos', 0), retain=self.conf.get('mqtt_retain', False))
                                 pass
                             else:
-                                if key == 'room_temp':
-                                    print("  {} {} {}".format(self.divicemac, key, data[key]))
-                                    mqttc.publish('%s/%s/%s'%(self.conf.get('mqtt_topic_prefix', 'broadlink'), self.divicemac, key), data[key], qos=self.conf.get('mqtt_qos', 0), retain=self.conf.get('mqtt_retain', False))
-                                print("DataKey: {} ".format(data[key]))
+                                #print("DataKey: {} {} {} ".format(self.divicemac, key, data[key]))
                                 try:
-                                    print("CacheKey: {} ".format(cache[key]))
+                                    if cache[key] == data[key]:
+                                        pass
                                 except KeyError:
                                     cache[key] = 'None'
-                                    print("CacheKey: {} ".format(cache[key]))
+                                    #print("CacheKey: {} {} {} ".format(self.divicemac, key, cache[key]))
                                 if data[key] != cache[key]:
-                                    print("{} ist neuer".format(data[key]))
+                                    print("{} {} {} updated, publish mqtt".format(self.divicemac, key, data[key]))
                                     mqttc.publish('%s/%s/%s'%(self.conf.get('mqtt_topic_prefix', 'broadlink'), self.divicemac, key), data[key], qos=self.conf.get('mqtt_qos', 0), retain=self.conf.get('mqtt_retain', False))
                                     cache[key] = data[key]
                 except Exception as e:
