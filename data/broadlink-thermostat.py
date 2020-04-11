@@ -73,7 +73,6 @@ class ReadDevice(Process):
     def run(self):
         print(('PID child %d' % os.getpid()))
         mqttc= mqtt.Client(self.conf.get('mqtt_clientid', 'broadlink')+'-%s-%s' % (self.divicemac,os.getpid()), clean_session=self.conf.get('mqtt_clean_session', False))
-        mqttc.will_set('%s/%s'%(self.conf.get('mqtt_topic_prefix', 'broadlink'), self.divicemac), payload="Disconnect", qos=self.conf.get('mqtt_qos', 0), retain=False)
         mqttc.reconnect_delay_set(min_delay=3, max_delay=30)
         if self.conf.get('tls') == True:
             mqttc.tls_set(self.conf.get('ca_certs'), self.conf.get('certfile'), self.conf.get('keyfile'), tls_version=self.conf.get('tls_version'), ciphers=None)
