@@ -669,19 +669,15 @@ class hysen(device):
 
     if setting_schedule == 1:
         weekday = []
-        for i in range(0, 6):
+        for i in range(0, 8):
             weekday.append({'start_hour':payload[2*i + 23], 'start_minute':payload[2*i + 24],'temp':payload[i + 39]/2.0})
         data['monday'] = json.dumps(weekday[0])
         data['tuesday'] = json.dumps(weekday[1])
         data['wednesday'] = json.dumps(weekday[2])
         data['thursday'] = json.dumps(weekday[3])
         data['friday'] = json.dumps(weekday[4])
-
-        weekend = []
-        for i in range(6, 8):
-            weekend.append({'start_hour':payload[2*i + 23], 'start_minute':payload[2*i + 24],'temp':payload[i + 39]/2.0})
-        data['saturday'] = json.dumps(weekend[0])
-        data['sunday'] = json.dumps(weekend[1])
+        data['saturday'] = json.dumps(weekday[5])
+        data['sunday'] = json.dumps(weekday[6])
     
     return data
 
