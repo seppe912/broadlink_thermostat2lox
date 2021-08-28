@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!REPLACELBPBINDIR/venv/bin/python3
 
 from datetime import datetime
 try:
