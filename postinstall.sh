@@ -50,5 +50,16 @@ ARGV5=$5 # Fifth argument is Base folder of LoxBerry
 
 chmod +x $PDATA/broadlink-thermostat.py
 
+#installing python in venv
+python3 -m venv $PBIN/venv
+
+source $PBIN/venv/bin/activate
+
+pip3 install pytz
+pip3 install pycryptodome
+pip3 install paho-mqtt
+
+deactivate
+
 # Exit with Status 0
 exit 0
