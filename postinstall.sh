@@ -55,9 +55,9 @@ python3 -m venv $PBIN/venv
 
 source $PBIN/venv/bin/activate
 
-pip3 install pytz
-pip3 install pycryptodome
-pip3 install paho-mqtt
+pip3 install pytz --extra-index-url https://www.piwheels.org/simple --prefer-binary
+pip3 install pycryptodome --extra-index-url https://www.piwheels.org/simple --prefer-binary
+pip3 install paho-mqtt --extra-index-url https://www.piwheels.org/simple --prefer-binary
 
 deactivate
 
